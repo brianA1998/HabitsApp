@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.habitsapp.R
+import com.example.habitsapp.core.presentation.HabitTitle
 import com.example.habitsapp.onboarding.presentation.OnboardingPagerInformation
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -51,7 +52,7 @@ fun OnboardingPager(
                 .fillMaxSize()
                 .padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally){
                 Spacer(modifier = Modifier.height(32.dp))
-                Text(information.title.uppercase())
+                HabitTitle(title = information.title)
                 Spacer(modifier = Modifier.height(32.dp))
                 Image(painter = painterResource(id = information.image),
                     contentDescription = "onboarding",
@@ -60,7 +61,8 @@ fun OnboardingPager(
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(information.subtitle.uppercase(),
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.tertiary
                 ), textAlign = TextAlign.Center)
             }
         }
