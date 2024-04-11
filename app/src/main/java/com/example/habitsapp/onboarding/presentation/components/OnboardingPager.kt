@@ -12,9 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.habitsapp.R
+import com.example.habitsapp.core.presentation.HabitButton
 import com.example.habitsapp.core.presentation.HabitTitle
 import com.example.habitsapp.onboarding.presentation.OnboardingPagerInformation
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -72,8 +72,8 @@ fun OnboardingPager(
             .padding(bottom = 64.dp, start = 16.dp, end = 16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
 
             if(pagerState.currentPage == pages.lastIndex){
-                Button(onClick = {onFinish}){
-                    Text("Get Started")
+                HabitButton("Get Started", modifier = Modifier.fillMaxWidth()){
+                    onFinish()
                 }
             }else{
                 TextButton(onClick = { onFinish}){
