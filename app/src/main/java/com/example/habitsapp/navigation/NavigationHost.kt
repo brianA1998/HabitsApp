@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.habitsapp.authentication.presentation.login.LoginScreen
 import com.example.habitsapp.onboarding.domain.usecase.HasSeenOnboardingUseCase
 import com.example.habitsapp.onboarding.presentation.OnboardingScreen
 import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
@@ -24,7 +25,7 @@ fun NavigationHost(navHostController: NavHostController,
         }
 
         composable(NavigationRoute.Login.route){
-            Text("Login Screen")
+            LoginScreen()
         }
     }
 }

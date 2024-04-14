@@ -12,14 +12,21 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HabitButton(
-    text : String,
+    text: String,
     modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
     onCLick: () -> Unit
-){
-    Button(onClick = onCLick, modifier = modifier, shape = RoundedCornerShape(8.dp)) {
-        Text(text = text, style = MaterialTheme.typography.bodyMedium.copy(
-            fontWeight = FontWeight.Bold
-        ),
+) {
+    Button(
+        onClick = onCLick,
+        modifier = modifier,
+        shape = RoundedCornerShape(8.dp),
+        enabled = isEnabled
+    ) {
+        Text(
+            text = text, style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.Bold
+            ),
             modifier = Modifier.padding(vertical = 6.dp)
         )
     }
