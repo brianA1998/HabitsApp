@@ -16,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -26,12 +28,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.habitsapp.authentication.presentation.login.LoginEvent
+import com.example.habitsapp.authentication.presentation.login.LoginState
 import com.example.habitsapp.core.presentation.HabitButton
 import com.example.habitsapp.core.presentation.HabitPasswordTextfield
 import com.example.habitsapp.core.presentation.HabitTextfield
 
 @Composable
-fun LoginForm(modifier: Modifier = Modifier) {
+fun LoginForm(state: LoginState, onEvent: (LoginEvent) -> Unit, modifier: Modifier = Modifier) {
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = modifier.background(Color.White, shape = RoundedCornerShape(20.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -49,8 +54,8 @@ fun LoginForm(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.background
         )
         HabitTextfield(
-            value = "Email",
-            onValueChange = {},
+            value = state.email,
+            onValueChange = { onEvent(LoginEvent.EmailChange(it)) },
             placeholder = "Email",
             contentDescription = "Enter email",
             modifier = Modifier
@@ -64,39 +69,41 @@ fun LoginForm(modifier: Modifier = Modifier) {
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(onAny = {
-                //
+                focusManager.moveFocus(FocusDirection.Next)
             }),
-            errorMessage = null,
-            isEnabled = true,
+            errorMessage = state.emailError,
+            isEnabled = !state.isLoading,
         )
 
         HabitPasswordTextfield(
-            value = "Password",
-            onValueChange = {},
+            value = state.password,
+            onValueChange = { onEvent(LoginEvent.PasswordChange(it)) },
             contentDescription = "Enter password",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 6.dp)
                 .padding(horizontal = 20.dp),
-            errorMessage = null,
-            isEnabled = true,
+            errorMessage = state.passwordError,
+            isEnabled = !state.isLoading,
             keyboardOptions = KeyboardOptions(
                 autoCorrect = false,
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(onAny = {
-                //
+                focusManager.clearFocus()
+                onEvent(LoginEvent.Login)
             }),
         )
 
         HabitButton(
             text = "Login",
+            isEnabled = !state.isLoading,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp), isEnabled = true
+                .padding(horizontal = 20.dp),
         ) {
-            //
+            onEvent(LoginEvent.Login)
         }
 
         TextButton(onClick = { /*TODO*/ }) {
@@ -107,7 +114,7 @@ fun LoginForm(modifier: Modifier = Modifier) {
             )
         }
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = { onEvent(LoginEvent.SignUp) }) {
             Text(
                 text = buildAnnotatedString {
                     append("Don't have an account? ")
@@ -124,5 +131,5 @@ fun LoginForm(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun LoginFormPreview() {
-    LoginForm()
+    LoginForm(LoginState(), {})
 }
