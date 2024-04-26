@@ -12,11 +12,15 @@ import com.example.habitsapp.onboarding.presentation.OnboardingScreen
 import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
 
 @Composable
-fun NavigationHost(navHostController: NavHostController,
-                   startDestination: NavigationRoute){
-    NavHost(navController = navHostController,
-        startDestination = startDestination.route ){
-        composable(NavigationRoute.Onboarding.route){
+fun NavigationHost(
+    navHostController: NavHostController,
+    startDestination: NavigationRoute
+) {
+    NavHost(
+        navController = navHostController,
+        startDestination = startDestination.route
+    ) {
+        composable(NavigationRoute.Onboarding.route) {
             OnboardingScreen(onFinish = {
                 navHostController.popBackStack()
                 navHostController.navigate(NavigationRoute.Login.route)
@@ -24,8 +28,21 @@ fun NavigationHost(navHostController: NavHostController,
             )
         }
 
-        composable(NavigationRoute.Login.route){
-            LoginScreen()
+        composable(NavigationRoute.Login.route) {
+            LoginScreen(onLogin = {
+                navHostController.popBackStack()
+                navHostController.navigate(NavigationRoute.Home.route)
+            }, onSignUp = {
+                navHostController.navigate(NavigationRoute.Signup.route)
+            })
+        }
+
+        composable(NavigationRoute.Signup.route) {
+            Text("esta es el signup")
+        }
+
+        composable(NavigationRoute.Home.route) {
+            Text("esta es la home")
         }
     }
 }

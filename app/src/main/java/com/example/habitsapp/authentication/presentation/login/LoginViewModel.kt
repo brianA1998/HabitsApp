@@ -43,7 +43,11 @@ class LoginViewModel @Inject constructor(
                 )
             }
 
-            LoginEvent.SignUp -> TODO()
+            LoginEvent.SignUp -> {
+                state = state.copy(
+                    signUp = true
+                )
+            }
         }
     }
 
@@ -67,15 +71,24 @@ class LoginViewModel @Inject constructor(
         }
 
         if (state.emailError == null && state.passwordError == null) {
+            state = state.copy(
+                isLoading = true
+            )
             viewModelScope.launch {
                 loginUseCases.loginWithEmailUseCase(state.email, state.password).onSuccess {
-                    println()
+                    state = state.copy(
+                        isLoggedIn = true
+                    )
                 }.onFailure {
                     state = state.copy(
                         emailError = it.message
                     )
                 }
             }
+
+            state = state.copy(
+                isLoading = false
+            )
         }
 
 
