@@ -6,13 +6,20 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habitsapp.authentication.domain.repository.AuthenticationRepository
+import com.example.habitsapp.authentication.domain.usecase.LoginUseCases
+import com.example.habitsapp.authentication.domain.usecase.LoginWithEmailUseCase
+import com.example.habitsapp.authentication.domain.usecase.PasswordResult
+import com.example.habitsapp.authentication.domain.usecase.ValidateEmailUseCase
+import com.example.habitsapp.authentication.domain.usecase.ValidatePasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val authenticationRepository: AuthenticationRepository) :
+class LoginViewModel @Inject constructor(
+    private val loginUseCases: LoginUseCases
+) :
     ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
@@ -42,13 +49,35 @@ class LoginViewModel @Inject constructor(private val authenticationRepository: A
 
 
     private fun login() {
-        viewModelScope.launch {
-            authenticationRepository.login(state.email, state.password).onSuccess {
-                println()
-            }.onFailure {
-                val error = it.message
-                println(error)
+        state = state.copy(
+            emailError = null,
+            passwordError = null
+        )
+        if (!loginUseCases.validateEmailUseCase(state.email)) {
+            state = state.copy(
+                emailError = "El email no es valido"
+            )
+        }
+
+        val passwordResult = loginUseCases.validatePasswordUseCase(state.password)
+        if (passwordResult is PasswordResult.Invalid) {
+            state = state.copy(
+                passwordError = passwordResult.errorMessage
+            )
+        }
+
+        if (state.emailError == null && state.passwordError == null) {
+            viewModelScope.launch {
+                loginUseCases.loginWithEmailUseCase(state.email, state.password).onSuccess {
+                    println()
+                }.onFailure {
+                    state = state.copy(
+                        emailError = it.message
+                    )
+                }
             }
         }
+
+
     }
 }
