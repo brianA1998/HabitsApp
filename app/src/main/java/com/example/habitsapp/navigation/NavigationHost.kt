@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.habitsapp.authentication.presentation.login.LoginScreen
+import com.example.habitsapp.authentication.presentation.signup.SignupScreen
 import com.example.habitsapp.onboarding.domain.usecase.HasSeenOnboardingUseCase
 import com.example.habitsapp.onboarding.presentation.OnboardingScreen
 import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
@@ -38,7 +39,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Signup.route) {
-            Text("esta es el signup")
+            SignupScreen()
         }
 
         composable(NavigationRoute.Home.route) {
