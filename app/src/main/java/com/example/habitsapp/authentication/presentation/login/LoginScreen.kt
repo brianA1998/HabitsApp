@@ -39,11 +39,6 @@ fun LoginScreen(
         }
     }
 
-    LaunchedEffect(state.signUp) {
-        if (state.signUp) {
-            onSignUp()
-        }
-    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -81,7 +76,7 @@ fun LoginScreen(
                 HabitTitle(title = "Welcome To")
                 HabitTitle(title = "Monumental Habits")
             }
-            LoginForm(state, viewModel::onEvent)
+            LoginForm(state, viewModel::onEvent, onSignUp)
         }
     }
 }

@@ -37,7 +37,12 @@ import com.example.habitsapp.core.presentation.HabitPasswordTextfield
 import com.example.habitsapp.core.presentation.HabitTextfield
 
 @Composable
-fun LoginForm(state: LoginState, onEvent: (LoginEvent) -> Unit, modifier: Modifier = Modifier) {
+fun LoginForm(
+    state: LoginState,
+    onEvent: (LoginEvent) -> Unit,
+    onSignUp: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val focusManager = LocalFocusManager.current
 
 
@@ -119,7 +124,7 @@ fun LoginForm(state: LoginState, onEvent: (LoginEvent) -> Unit, modifier: Modifi
                 )
             }
 
-            TextButton(onClick = { onEvent(LoginEvent.SignUp) }) {
+            TextButton(onClick = onSignUp) {
                 Text(
                     text = buildAnnotatedString {
                         append("Don't have an account? ")
@@ -131,7 +136,7 @@ fun LoginForm(state: LoginState, onEvent: (LoginEvent) -> Unit, modifier: Modifi
                 )
             }
         }
-        if(state.isLoading){
+        if (state.isLoading) {
             CircularProgressIndicator()
         }
     }
@@ -140,5 +145,5 @@ fun LoginForm(state: LoginState, onEvent: (LoginEvent) -> Unit, modifier: Modifi
 @Preview
 @Composable
 fun LoginFormPreview() {
-    LoginForm(LoginState(), {})
+    LoginForm(LoginState(), {}, {})
 }

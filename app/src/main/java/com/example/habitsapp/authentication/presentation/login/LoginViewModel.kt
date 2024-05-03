@@ -43,11 +43,6 @@ class LoginViewModel @Inject constructor(
                 )
             }
 
-            LoginEvent.SignUp -> {
-                state = state.copy(
-                    signUp = true
-                )
-            }
         }
     }
 

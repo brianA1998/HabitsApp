@@ -95,7 +95,7 @@ fun SignupForm(state: SignupState, onEvent: (SignupEvent) -> Unit, modifier: Mod
             onEvent(SignupEvent.SignUp)
         }
 
-        TextButton(onClick = { onEvent(SignupEvent.SignIn) }) {
+        TextButton(onClick = { onEvent(SignupEvent.LogIn) }) {
             Text(
                 text = buildAnnotatedString {
                     append("Already have an account? ")
