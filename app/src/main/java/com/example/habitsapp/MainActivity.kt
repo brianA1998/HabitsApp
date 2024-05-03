@@ -30,16 +30,24 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavigationHost(navHostController = navController, startDestination = getStartDestination())
+                    NavigationHost(
+                        navHostController = navController,
+                        startDestination = getStartDestination()
+                    )
                 }
             }
         }
     }
 
-    private fun getStartDestination() : NavigationRoute{
-        return if(viewModel.hasSeenOnboarding){
+    private fun getStartDestination(): NavigationRoute {
+
+        if (viewModel.isLoggedIn) {
+            return NavigationRoute.Home
+        }
+
+        return if (viewModel.hasSeenOnboarding) {
             NavigationRoute.Login
-        }else{
+        } else {
             NavigationRoute.Onboarding
         }
     }
