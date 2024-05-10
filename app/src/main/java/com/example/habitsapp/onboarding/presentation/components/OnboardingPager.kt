@@ -75,7 +75,7 @@ fun OnboardingPager(
                     onFinish()
                 }
             }else{
-                TextButton(onClick = { onFinish}){
+                TextButton(onClick =  onFinish){
                     Text("Skip", color = MaterialTheme.colorScheme.tertiary)
                 }
 
