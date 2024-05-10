@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.habitsapp.authentication.presentation.login.LoginScreen
 import com.example.habitsapp.authentication.presentation.signup.SignupScreen
+import com.example.habitsapp.home.presentation.home.HomeScreen
 import com.example.habitsapp.onboarding.domain.usecase.HasSeenOnboardingUseCase
 import com.example.habitsapp.onboarding.presentation.OnboardingScreen
 import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
@@ -51,7 +52,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Home.route) {
-            Text("esta es la home")
+            HomeScreen()
         }
     }
 }
