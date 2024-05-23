@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.habitsapp.R
 import com.example.habitsapp.home.presentation.home.components.HomeDateSelector
 import com.example.habitsapp.home.presentation.home.components.HomeQuote
@@ -32,7 +33,9 @@ import java.time.ZonedDateTime
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+
+    val state = viewModel.state
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(title = {
             Text(text = "Home")
@@ -45,13 +48,15 @@ fun HomeScreen() {
         Column(
             modifier = Modifier
                 .padding(it)
-                .padding(20.dp)
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(19.dp)
         ) {
             HomeQuote(
                 quote = "We first make our habits, and then our habits make us.",
                 author = "Anonymous",
                 imageId = R.drawable.onboarding1
             )
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -64,10 +69,16 @@ fun HomeScreen() {
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 HomeDateSelector(
-                    selectedDate = ZonedDateTime.now(),
-                    mainDate = ZonedDateTime.now(),
-                    onDateClick = {})
+                    selectedDate = state.selectedDate,
+                    mainDate = state.currentDate,
+                    onDateClick = {
+                        viewModel.onEvent(HomeEvent.ChangeDate(it))
+                    })
+
+
             }
+            Text("Listado de Habitos")
+
         }
     }
 }
