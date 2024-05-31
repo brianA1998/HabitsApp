@@ -52,21 +52,22 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         LazyColumn(
             modifier = Modifier
                 .padding(it)
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(19.dp),
+                .padding(start = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             contentPadding = PaddingValues(bottom = 20.dp)
         ) {
             item {
                 HomeQuote(
                     quote = "We first make our habits, and then our habits make us.",
                     author = "Anonymous",
-                    imageId = R.drawable.onboarding1
+                    imageId = R.drawable.onboarding1,
+                    modifier = Modifier.padding(end = 20.dp)
                 )
             }
 
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(end = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
