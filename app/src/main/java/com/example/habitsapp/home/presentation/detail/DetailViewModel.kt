@@ -13,10 +13,30 @@ class DetailViewModel @Inject constructor() : ViewModel() {
 
     fun onEvent(event: DetailEvent) {
         when (event) {
-            is DetailEvent.FrecuencyChange -> TODO()
+            is DetailEvent.FrecuencyChange -> {
+                val frequency = if (state.frequency.contains(event.dayOfWeek)) {
+                    state.frequency - event.dayOfWeek
+                } else {
+                    state.frequency + event.dayOfWeek
+                }
+                state = state.copy(
+                    frequency = frequency
+                )
+            }
+
             DetailEvent.HabitSave -> TODO()
-            is DetailEvent.NameChange -> TODO()
-            is DetailEvent.ReminderChange -> TODO()
+            is DetailEvent.NameChange -> {
+                state = state.copy(
+                    habitName = event.name
+                )
+            }
+
+            is DetailEvent.ReminderChange -> {
+
+                state = state.copy(
+                    reminder = event.time
+                )
+            }
         }
     }
 }

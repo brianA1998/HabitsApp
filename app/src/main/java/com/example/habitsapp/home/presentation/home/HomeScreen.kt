@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,18 +40,35 @@ import java.time.ZonedDateTime
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNewHabit: () -> Unit,
+    onSettings: () -> Unit
+) {
 
     val state = viewModel.state
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(title = {
             Text(text = "Home")
         }, navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onSettings) {
                 Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
             }
         })
-    }) {
+    },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNewHabit,
+                containerColor = MaterialTheme.colorScheme.primary,
+                shape = CircleShape
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "create habit",
+                    tint = MaterialTheme.colorScheme.tertiary
+                )
+            }
+        }) {
         LazyColumn(
             modifier = Modifier
                 .padding(it)
@@ -67,7 +87,9 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(end = 20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -87,11 +109,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                 }
             }
 
-            items(state.habits){
+            items(state.habits) {
                 HomeHabit(
                     habit = it,
                     selectedDate = state.selectedDate.toLocalDate(),
-                    onCheckedChange = {viewModel.onEvent(HomeEvent.CompleteHabit(it)) },
+                    onCheckedChange = { viewModel.onEvent(HomeEvent.CompleteHabit(it)) },
                     onHabitClick = { /*TODO*/ })
             }
         }
