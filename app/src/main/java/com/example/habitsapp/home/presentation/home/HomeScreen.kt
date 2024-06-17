@@ -43,7 +43,8 @@ import java.time.ZonedDateTime
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNewHabit: () -> Unit,
-    onSettings: () -> Unit
+    onSettings: () -> Unit,
+    onEditHabit: (String) -> Unit,
 ) {
 
     val state = viewModel.state
@@ -114,7 +115,7 @@ fun HomeScreen(
                     habit = it,
                     selectedDate = state.selectedDate.toLocalDate(),
                     onCheckedChange = { viewModel.onEvent(HomeEvent.CompleteHabit(it)) },
-                    onHabitClick = { /*TODO*/ })
+                    onHabitClick = { onEditHabit(it.id) })
             }
         }
     }
