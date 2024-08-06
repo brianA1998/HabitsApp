@@ -26,14 +26,7 @@ class DetailViewModel @Inject constructor(
         if (id != null) {
             viewModelScope.launch {
                 val habit = detailUseCases.getHabitByIdUseCase(id)
-                state = state.copy(
-                    id = habit.id,
-                    habitName = habit.name,
-                    frequency = habit.frequency,
-                    reminder = habit.reminder,
-                    completedDates = habit.completedDates,
-                    startDate = habit.startDate
-                )
+
             }
         }
     }
