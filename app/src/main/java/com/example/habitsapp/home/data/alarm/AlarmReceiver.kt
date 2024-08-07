@@ -1,0 +1,69 @@
+package com.example.habitsapp.home.data.alarm
+
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
+import com.example.habitsapp.R
+import com.example.habitsapp.home.data.extension.goAsync
+import com.example.habitsapp.home.domain.alarm.AlarmHandler
+import com.example.habitsapp.home.domain.models.Habit
+import com.example.habitsapp.home.domain.repository.HomeRepository
+import okhttp3.internal.notify
+import javax.inject.Inject
+
+class AlarmReceiver : BroadcastReceiver() {
+
+    companion object {
+        const val HABIT_ID = "habit_id"
+        private const val CHANNEL_ID = "habits_channel"
+    }
+
+    @Inject
+    lateinit var repository: HomeRepository
+
+    @Inject
+    lateinit var alarmHandler: AlarmHandler
+
+    override fun onReceive(context: Context?, intent: Intent?) = goAsync {
+        if (context == null || intent == null) return@goAsync
+        val id = intent.getStringExtra(HABIT_ID) ?: return@goAsync
+        val habit = repository.getHabitById(id)
+        createNotificationChannel(context)
+        showNotification(context, habit)
+        alarmHandler.setRecurringAlarm(habit)
+    }
+
+    /**
+     * Shows a notification for the given habit.
+     */
+    private fun showNotification(context: Context, habit: Habit) {
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
+        val notification =
+            NotificationCompat.Builder(context, CHANNEL_ID).setContentTitle(habit.name)
+                .setSmallIcon(R.drawable.notification_icon).setAutoCancel(true).build()
+        notificationManager.notify(habit.id.hashCode(), notification)
+    }
+
+    /**
+     * Creates a notification channel for the app.
+     */
+    private fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Habit Reminder Channel",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            channel.description = "Get your habits reminder!"
+            val notificationManager = context.getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+}
+
