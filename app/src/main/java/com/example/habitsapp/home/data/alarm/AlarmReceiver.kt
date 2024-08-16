@@ -1,6 +1,5 @@
 package com.example.habitsapp.home.data.alarm
 
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -8,15 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.content.getSystemService
 import com.example.habitsapp.R
 import com.example.habitsapp.home.data.extension.goAsync
 import com.example.habitsapp.home.domain.alarm.AlarmHandler
 import com.example.habitsapp.home.domain.models.Habit
 import com.example.habitsapp.home.domain.repository.HomeRepository
-import okhttp3.internal.notify
+import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
@@ -35,7 +35,9 @@ class AlarmReceiver : BroadcastReceiver() {
         val id = intent.getStringExtra(HABIT_ID) ?: return@goAsync
         val habit = repository.getHabitById(id)
         createNotificationChannel(context)
-        showNotification(context, habit)
+        if (!habit.completedDates.contains(LocalDate.now())) {
+            showNotification(context, habit)
+        }
         alarmHandler.setRecurringAlarm(habit)
     }
 

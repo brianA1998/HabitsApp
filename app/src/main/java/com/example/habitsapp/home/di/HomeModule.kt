@@ -2,11 +2,13 @@ package com.example.habitsapp.home.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.habitsapp.home.data.alarm.AlarmHandlerImpl
 import com.example.habitsapp.home.data.local.HomeDao
 import com.example.habitsapp.home.data.local.HomeDatabase
 import com.example.habitsapp.home.data.local.typeconverter.HomeTypeConverter
 import com.example.habitsapp.home.data.remote.HomeApi
 import com.example.habitsapp.home.data.repository.HomeRepositoryImpl
+import com.example.habitsapp.home.domain.alarm.AlarmHandler
 import com.example.habitsapp.home.domain.detail.usecase.DetailUseCases
 import com.example.habitsapp.home.domain.detail.usecase.GetHabitByIdUseCase
 import com.example.habitsapp.home.domain.detail.usecase.InsertHabitUseCase
@@ -14,7 +16,6 @@ import com.example.habitsapp.home.domain.home.usecase.CompleteHabitUseCase
 import com.example.habitsapp.home.domain.home.usecase.GetHabitsForDateUseCase
 import com.example.habitsapp.home.domain.home.usecase.HomeUseCases
 import com.example.habitsapp.home.domain.repository.HomeRepository
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +25,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 
@@ -51,25 +51,29 @@ object HomeModule {
 
     @Singleton
     @Provides
-    fun provideHabitDao(@ApplicationContext context: Context, moshi: Moshi): HomeDao {
+    fun provideHabitDao(@ApplicationContext context: Context): HomeDao {
         return Room.databaseBuilder(
             context,
             HomeDatabase::class.java,
             "habits_db"
-        ).addTypeConverter(HomeTypeConverter(moshi)).build().dao
+        ).addTypeConverter(HomeTypeConverter()).build().dao
     }
 
 
     @Singleton
     @Provides
-    fun provideHomeRepository(dao: HomeDao, api: HomeApi): HomeRepository {
-        return HomeRepositoryImpl(dao, api)
+    fun provideHomeRepository(
+        dao: HomeDao,
+        api: HomeApi,
+        alarmHandler: AlarmHandler
+    ): HomeRepository {
+        return HomeRepositoryImpl(dao, api, alarmHandler)
     }
 
     @Singleton
     @Provides
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder().build()
+    fun provideAlarmHandler(@ApplicationContext context: Context): AlarmHandler {
+        return AlarmHandlerImpl(context)
     }
 
     @Singleton
