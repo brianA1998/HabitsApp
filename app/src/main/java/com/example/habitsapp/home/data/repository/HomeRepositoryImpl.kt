@@ -1,12 +1,22 @@
 package com.example.habitsapp.home.data.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.habitsapp.home.data.extension.toStartOfDateTimestamp
 import com.example.habitsapp.home.data.local.HomeDao
 import com.example.habitsapp.home.data.mapper.toDomain
 import com.example.habitsapp.home.data.mapper.toDto
 import com.example.habitsapp.home.data.mapper.toEntity
+import com.example.habitsapp.home.data.mapper.toSyncEntity
 import com.example.habitsapp.home.data.remote.HomeApi
 import com.example.habitsapp.home.data.remote.util.resultOf
+import com.example.habitsapp.home.data.sync.HabitSyncWorker
 import com.example.habitsapp.home.domain.alarm.AlarmHandler
 import com.example.habitsapp.home.domain.models.Habit
 import com.example.habitsapp.home.domain.repository.HomeRepository
@@ -15,13 +25,15 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import java.time.Duration
 import java.time.ZonedDateTime
 
 
 class HomeRepositoryImpl(
     private val dao: HomeDao,
     private val api: HomeApi,
-    private val alarmHandler: AlarmHandler
+    private val alarmHandler: AlarmHandler,
+    private val workManager: WorkManager
 ) : HomeRepository {
 
     override fun getAllHabitsForSelectedDate(date: ZonedDateTime): Flow<List<Habit>> {
@@ -60,6 +72,8 @@ class HomeRepositoryImpl(
         dao.insertHabit(habit.toEntity())
         resultOf {
             api.insertHabit(habit.toDto())
+        }.onFailure {
+            dao.insertHabitSync(habit.toSyncEntity())
         }
     }
 
@@ -75,5 +89,18 @@ class HomeRepositoryImpl(
 
     override suspend fun getHabitById(id: String): Habit {
         return dao.getHabitById(id).toDomain()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override suspend fun syncHabits() {
+        val worker = OneTimeWorkRequestBuilder<HabitSyncWorker>().setConstraints(
+            Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        ).setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(5)).build()
+
+        workManager.beginUniqueWork(UNIQUE_WORK_NAME, ExistingWorkPolicy.REPLACE, worker).enqueue()
+    }
+
+    companion object {
+        private const val UNIQUE_WORK_NAME = "sync_habit_id"
     }
 }

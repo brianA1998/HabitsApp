@@ -9,6 +9,7 @@ interface HomeRepository {
 
     suspend fun insertHabit(habit: Habit)
     suspend fun getHabitById(id: String): Habit
+    suspend fun syncHabits()
 
 
 }

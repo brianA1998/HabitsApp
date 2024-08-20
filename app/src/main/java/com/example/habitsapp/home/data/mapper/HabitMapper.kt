@@ -4,6 +4,7 @@ import com.example.habitsapp.home.data.extension.toStartOfDateTimestamp
 import com.example.habitsapp.home.data.extension.toTimeStamp
 import com.example.habitsapp.home.data.extension.toZonedDateTime
 import com.example.habitsapp.home.data.local.entity.HabitEntity
+import com.example.habitsapp.home.data.local.entity.HabitSyncEntity
 import com.example.habitsapp.home.data.remote.dto.HabitDto
 import com.example.habitsapp.home.data.remote.dto.HabitResponse
 import com.example.habitsapp.home.domain.models.Habit
@@ -56,4 +57,8 @@ fun Habit.toDto(): HabitResponse {
         startDate = this.startDate.toStartOfDateTimestamp()
     )
     return mapOf(id to dto)
+}
+
+fun Habit.toSyncEntity(): HabitSyncEntity {
+    return HabitSyncEntity(id = this.id)
 }
