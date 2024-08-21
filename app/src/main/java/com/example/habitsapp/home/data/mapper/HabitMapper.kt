@@ -60,5 +60,5 @@ fun Habit.toDto(): HabitResponse {
 }
 
 fun Habit.toSyncEntity(): HabitSyncEntity {
-    return HabitSyncEntity(id = this.id)
+    return HabitSyncEntity(id = id)
 }

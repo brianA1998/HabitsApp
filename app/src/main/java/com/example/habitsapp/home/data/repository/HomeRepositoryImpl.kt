@@ -1,7 +1,5 @@
 package com.example.habitsapp.home.data.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
@@ -91,11 +89,12 @@ class HomeRepositoryImpl(
         return dao.getHabitById(id).toDomain()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override suspend fun syncHabits() {
         val worker = OneTimeWorkRequestBuilder<HabitSyncWorker>().setConstraints(
             Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        ).setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(5)).build()
+        ).setBackoffCriteria(BackoffPolicy.EXPONENTIAL, Duration.ofMinutes(5))
+            .build()
 
         workManager.beginUniqueWork(UNIQUE_WORK_NAME, ExistingWorkPolicy.REPLACE, worker).enqueue()
     }

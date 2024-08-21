@@ -15,11 +15,13 @@ import com.example.habitsapp.home.presentation.home.HomeScreen
 import com.example.habitsapp.onboarding.domain.usecase.HasSeenOnboardingUseCase
 import com.example.habitsapp.onboarding.presentation.OnboardingScreen
 import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
+import com.example.habitsapp.settings.presentation.SettingsScreen
 
 @Composable
 fun NavigationHost(
     navHostController: NavHostController,
-    startDestination: NavigationRoute
+    startDestination: NavigationRoute,
+    logout : () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -52,6 +54,20 @@ fun NavigationHost(
             }, onLogin = {
                 navHostController.popBackStack()
             })
+        }
+
+        composable(NavigationRoute.Settings.route) {
+            SettingsScreen(
+                onBack = { navHostController.popBackStack() },
+                onLogout = {
+                    logout()
+                    navHostController.navigate(NavigationRoute.Login.route) {
+                        popUpTo(navHostController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
 
         composable(NavigationRoute.Home.route) {

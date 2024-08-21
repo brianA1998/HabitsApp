@@ -12,27 +12,29 @@ import com.example.habitsapp.home.data.remote.HomeApi
 import com.example.habitsapp.home.data.remote.util.resultOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
 @HiltWorker
 class HabitSyncWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted val workerParams: WorkerParameters,
+    @Assisted val workerParameters: WorkerParameters,
     private val api: HomeApi,
     private val dao: HomeDao
-) : CoroutineWorker(context, workerParams) {
+) : CoroutineWorker(context, workerParameters) {
     override suspend fun doWork(): Result {
-        val items = dao.getAllHabitsSync()
-
         if (runAttemptCount >= 3) {
             return Result.failure()
         }
 
+        val items = dao.getAllHabitsSync()
+
         return try {
             supervisorScope {
-                val jobs = items.map { items -> launch { sync(items) } }
-                jobs.forEach { it.join() }
+                val jobs = items.map { items -> async { sync(items) } }
+                jobs.awaitAll()
             }
             Result.success()
         } catch (e: Exception) {
@@ -40,9 +42,6 @@ class HabitSyncWorker @AssistedInject constructor(
         }
     }
 
-    /**
-     * Syncs a habit delete or update with the server
-     */
     private suspend fun sync(entity: HabitSyncEntity) {
         val habit = dao.getHabitById(entity.id).toDomain().toDto()
         resultOf {
@@ -52,6 +51,5 @@ class HabitSyncWorker @AssistedInject constructor(
         }.onFailure {
             throw it
         }
-
     }
 }
