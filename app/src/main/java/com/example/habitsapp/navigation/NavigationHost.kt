@@ -4,18 +4,24 @@ package com.example.habitsapp.navigation
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.habitsapp.authentication.presentation.login.LoginScreen
 import com.example.habitsapp.authentication.presentation.signup.SignupScreen
+import com.example.habitsapp.home.presentation.detail.DetailScreen
+import com.example.habitsapp.home.presentation.home.HomeScreen
 import com.example.habitsapp.onboarding.domain.usecase.HasSeenOnboardingUseCase
 import com.example.habitsapp.onboarding.presentation.OnboardingScreen
 import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
+import com.example.habitsapp.settings.presentation.SettingsScreen
 
 @Composable
 fun NavigationHost(
     navHostController: NavHostController,
-    startDestination: NavigationRoute
+    startDestination: NavigationRoute,
+    logout : () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -50,8 +56,41 @@ fun NavigationHost(
             })
         }
 
+        composable(NavigationRoute.Settings.route) {
+            SettingsScreen(
+                onBack = { navHostController.popBackStack() },
+                onLogout = {
+                    logout()
+                    navHostController.navigate(NavigationRoute.Login.route) {
+                        popUpTo(navHostController.graph.id) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
         composable(NavigationRoute.Home.route) {
-            Text("esta es la home")
+            HomeScreen(onNewHabit = {
+                navHostController.navigate(NavigationRoute.Detail.route)
+            }, onSettings = {
+                navHostController.navigate(NavigationRoute.Settings.route)
+            },
+                onEditHabit = {
+                    navHostController.navigate(NavigationRoute.Detail.route + "?habitId=$it")
+                })
+        }
+
+        composable(NavigationRoute.Detail.route + "?habitId={habitId}", arguments = listOf(
+            navArgument("habitId") {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            }
+        )) {
+            DetailScreen(
+                onBack = { navHostController.popBackStack() },
+                onSave = { navHostController.popBackStack() })
         }
     }
 }
