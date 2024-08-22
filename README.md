@@ -5,16 +5,16 @@ Este proyecto es una aplicación de seguimiento de hábitos escrita en Kotlin pa
 ## Imagenes
 
 ### Login
-[Login](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980065-11e3d710-d2f3-4209-941c-7c59b0c27deb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235219Z&X-Amz-Expires=300&X-Amz-Signature=2a131c28e1da4a105050108661b03d33affd869482b960fa4646fc19c79992c8&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980065-11e3d710-d2f3-4209-941c-7c59b0c27deb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235219Z&X-Amz-Expires=300&X-Amz-Signature=2a131c28e1da4a105050108661b03d33affd869482b960fa4646fc19c79992c8&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
 
 ### Registration
-[Registration](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980107-fc72f8ff-badd-48f4-99c6-23ba076b626f.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235303Z&X-Amz-Expires=300&X-Amz-Signature=243ddb55e4ae852be3aec0106a22decca4c1168d7dfb346b7c89abefe91e414f&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980107-fc72f8ff-badd-48f4-99c6-23ba076b626f.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235303Z&X-Amz-Expires=300&X-Amz-Signature=243ddb55e4ae852be3aec0106a22decca4c1168d7dfb346b7c89abefe91e414f&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
 
 ### Home
-[Home](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980185-84c02624-3043-4fd1-a889-ff82c0f62455.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235320Z&X-Amz-Expires=300&X-Amz-Signature=36749e2cebdcb92de1763241fa42de66b068a88d85649c76d6273d772bc5fe4e&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980185-84c02624-3043-4fd1-a889-ff82c0f62455.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235320Z&X-Amz-Expires=300&X-Amz-Signature=36749e2cebdcb92de1763241fa42de66b068a88d85649c76d6273d772bc5fe4e&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
 
 ### Detail
-[Detail](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980217-a712bb7e-df63-4947-86e8-20057dd0f5d6.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235335Z&X-Amz-Expires=300&X-Amz-Signature=2fd3c3a910381b9f01e294fad3b83c85ca5cf08ea10d13264f514a1678d97dc8&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/16141845/240980217-a712bb7e-df63-4947-86e8-20057dd0f5d6.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240821T235335Z&X-Amz-Expires=300&X-Amz-Signature=2fd3c3a910381b9f01e294fad3b83c85ca5cf08ea10d13264f514a1678d97dc8&X-Amz-SignedHeaders=host&actor_id=43861894&key_id=0&repo_id=615835755)
 
 ### Características principales
 
