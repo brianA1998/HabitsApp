@@ -1,11 +1,8 @@
 # Habit Tracker App
 Este proyecto es una aplicación de seguimiento de hábitos escrita en Kotlin para Android. La aplicación permite a los usuarios realizar un seguimiento de sus hábitos diarios y recibir recordatorios para ayudarles a mantenerse en el buen camino. Está diseñada siguiendo los principios de Clean Architecture y SOLID, y utiliza varias tecnologías y bibliotecas importantes para proporcionar una experiencia robusta y escalable.
 
-![](C:\Users\brian\AndroidStudioProjects\HabitsApp\images-app\Registration.png)
-![](C:\Users\brian\AndroidStudioProjects\HabitsApp\images-app\Login.png)
-![](C:\Users\brian\AndroidStudioProjects\HabitsApp\images-app\Home.png)
-![](C:\Users\brian\AndroidStudioProjects\HabitsApp\images-app\New-habit.png)
-![](C:\Users\brian\AndroidStudioProjects\HabitsApp\images-app\Settings.png)
+### Screenshots app
+[Files imgs](https://github.com/brianA1998/HabitsApp/blob/89b5d380a7048fa136ae1424a8f91302b6329fc7/images-app)
 
 
 ### Características principales
