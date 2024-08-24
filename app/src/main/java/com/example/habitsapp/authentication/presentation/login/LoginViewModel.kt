@@ -5,12 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.habitsapp.authentication.domain.repository.AuthenticationRepository
 import com.example.habitsapp.authentication.domain.usecase.LoginUseCases
-import com.example.habitsapp.authentication.domain.usecase.LoginWithEmailUseCase
-import com.example.habitsapp.authentication.domain.usecase.PasswordResult
-import com.example.habitsapp.authentication.domain.usecase.ValidateEmailUseCase
-import com.example.habitsapp.authentication.domain.usecase.ValidatePasswordUseCase
+import com.example.habitsapp.authentication.presentation.util.PasswordErrorParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,11 +55,9 @@ class LoginViewModel @Inject constructor(
         }
 
         val passwordResult = loginUseCases.validatePasswordUseCase(state.password)
-        if (passwordResult is PasswordResult.Invalid) {
-            state = state.copy(
-                passwordError = passwordResult.errorMessage
-            )
-        }
+        state = state.copy(
+            passwordError = PasswordErrorParser.passwordError(passwordResult)
+        )
 
         if (state.emailError == null && state.passwordError == null) {
             state = state.copy(
