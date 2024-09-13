@@ -96,7 +96,7 @@ fun DetailScreen(
             HabitTextfield(
                 value = state.habitName,
                 onValueChange = { viewModel.onEvent(DetailEvent.NameChange(it)) },
-                placeholder = "New Habit",
+                placeholder = "New habit",
                 contentDescription = "Enter habit name",
                 modifier = Modifier.fillMaxWidth(),
                 backgroundColor = Color.White,
