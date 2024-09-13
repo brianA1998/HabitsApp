@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.habitsapp.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -52,6 +52,7 @@ android {
 
 dependencies {
 
+    testImplementation 'junit:junit:4.12'
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
             because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")

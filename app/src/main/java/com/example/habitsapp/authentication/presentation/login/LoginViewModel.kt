@@ -5,20 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.habitsapp.authentication.domain.repository.AuthenticationRepository
 import com.example.habitsapp.authentication.domain.usecase.LoginUseCases
-import com.example.habitsapp.authentication.domain.usecase.LoginWithEmailUseCase
-import com.example.habitsapp.authentication.domain.usecase.PasswordResult
-import com.example.habitsapp.authentication.domain.usecase.ValidateEmailUseCase
-import com.example.habitsapp.authentication.domain.usecase.ValidatePasswordUseCase
+import com.example.habitsapp.authentication.presentation.util.PasswordErrorParser
+import com.example.habitsapp.core.presentation.di.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCases: LoginUseCases
+    private val loginUseCases: LoginUseCases,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) :
     ViewModel() {
     var state by mutableStateOf(LoginState())
@@ -59,17 +58,15 @@ class LoginViewModel @Inject constructor(
         }
 
         val passwordResult = loginUseCases.validatePasswordUseCase(state.password)
-        if (passwordResult is PasswordResult.Invalid) {
-            state = state.copy(
-                passwordError = passwordResult.errorMessage
-            )
-        }
+        state = state.copy(
+            passwordError = PasswordErrorParser.passwordError(passwordResult)
+        )
 
         if (state.emailError == null && state.passwordError == null) {
             state = state.copy(
                 isLoading = true
             )
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 loginUseCases.loginWithEmailUseCase(state.email, state.password).onSuccess {
                     state = state.copy(
                         isLoggedIn = true

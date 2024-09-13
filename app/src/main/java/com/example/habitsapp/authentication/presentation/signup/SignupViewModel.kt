@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.habitsapp.authentication.domain.usecase.PasswordResult
 import com.example.habitsapp.authentication.domain.usecase.SignupUseCases
+import com.example.habitsapp.authentication.presentation.util.PasswordErrorParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,11 +57,9 @@ class SignupViewModel @Inject constructor(
         }
 
         val passwordResult = signupUseCases.validatePasswordUseCase(state.password)
-        if (passwordResult is PasswordResult.Invalid) {
-            state = state.copy(
-                passwordError = passwordResult.errorMessage
-            )
-        }
+        state = state.copy(
+            passwordError = PasswordErrorParser.passwordError(passwordResult)
+        )
 
         if (state.emailError == null && state.passwordError == null) {
             state = state.copy(
