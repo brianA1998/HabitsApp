@@ -14,6 +14,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
@@ -34,7 +35,7 @@ class HabitSyncWorker @AssistedInject constructor(
         return try {
             supervisorScope {
                 val jobs = items.map { items -> async { sync(items) } }
-                jobs.awaitAll()
+                jobs.joinAll()
             }
             Result.success()
         } catch (e: Exception) {
