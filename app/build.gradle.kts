@@ -8,17 +8,17 @@ plugins {
 }
 
 android {
-    namespace = "com.mkiperszmid.habitsappcourse"
+    namespace = "com.example.habitsapp"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.mkiperszmid.habitsappcourse"
+        applicationId = "com.example.habitsapp"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.mkiperszmid.habitsappcourse.HiltTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
