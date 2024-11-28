@@ -1,5 +1,6 @@
 package com.example.habitsapp.authentication.domain.usecase
 
+import com.example.authentication_domain.usecase.ValidatePasswordUseCase
 import org.junit.Assert.*
 import org.junit.Before
 
@@ -20,7 +21,7 @@ class ValidatePasswordUseCaseTest {
         val input = "asd"
         val result = validatePasswordUseCase(input)
         assertEquals(
-            PasswordResult.INVALID_LENGTH,
+            com.example.authentication_domain.usecase.PasswordResult.INVALID_LENGTH,
             result
         )
     }
@@ -31,7 +32,7 @@ class ValidatePasswordUseCaseTest {
         val input = "ASDSADADDSADA"
         val result = validatePasswordUseCase(input)
         assertEquals(
-            PasswordResult.INVALID_LOWERCASE,
+            com.example.authentication_domain.usecase.PasswordResult.INVALID_LOWERCASE,
             result
         )
     }
@@ -42,7 +43,7 @@ class ValidatePasswordUseCaseTest {
         val input = "dsadsada"
         val result = validatePasswordUseCase(input)
         assertEquals(
-            PasswordResult.INVALID_UPPERCASE,
+            com.example.authentication_domain.usecase.PasswordResult.INVALID_UPPERCASE,
             result
         )
     }
@@ -51,7 +52,7 @@ class ValidatePasswordUseCaseTest {
     fun givenNoDigitCharacterPasswordReturnInvalidPassword() {
         val input = "Ddsadsada"
         val result = validatePasswordUseCase(input)
-       assertEquals(PasswordResult.INVALID_DIGITS, result)
+       assertEquals(com.example.authentication_domain.usecase.PasswordResult.INVALID_DIGITS, result)
     }
 
 
@@ -59,7 +60,7 @@ class ValidatePasswordUseCaseTest {
     fun givenValidPasswordReturnValidPassword() {
         val input = "Ddsadsada123"
         val result = validatePasswordUseCase(input)
-        assertEquals(PasswordResult.VALID, result)
+        assertEquals(com.example.authentication_domain.usecase.PasswordResult.VALID, result)
     }
 
 

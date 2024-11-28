@@ -1,6 +1,7 @@
 package com.example.habitsapp.authentication.data.repository
 
-import com.example.habitsapp.authentication.domain.repository.AuthenticationRepository
+import com.example.authentication_domain.repository.AuthenticationRepository
+
 
 class FakeAuthenticationRepository : AuthenticationRepository {
 

@@ -1,21 +1,14 @@
 package com.example.habitsapp.navigation
 
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.habitsapp.authentication.presentation.login.LoginScreen
-import com.example.habitsapp.authentication.presentation.signup.SignupScreen
-import com.example.habitsapp.home.presentation.detail.DetailScreen
-import com.example.habitsapp.home.presentation.home.HomeScreen
-import com.example.habitsapp.onboarding.domain.usecase.HasSeenOnboardingUseCase
-import com.example.habitsapp.onboarding.presentation.OnboardingScreen
-import com.example.habitsapp.onboarding.presentation.OnboardingViewModel
-import com.example.habitsapp.settings.presentation.SettingsScreen
+import com.example.home_presentation.detail.DetailScreen
+import com.example.home_presentation.home.HomeScreen
 
 @Composable
 fun NavigationHost(
@@ -28,7 +21,7 @@ fun NavigationHost(
         startDestination = startDestination.route
     ) {
         composable(NavigationRoute.Onboarding.route) {
-            OnboardingScreen(onFinish = {
+            com.example.onboarding_presentation.OnboardingScreen(onFinish = {
                 navHostController.popBackStack()
                 navHostController.navigate(NavigationRoute.Login.route)
             }
@@ -36,7 +29,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Login.route) {
-            LoginScreen(onLogin = {
+            com.example.authentication_presentation.login.LoginScreen(onLogin = {
                 navHostController.popBackStack()
                 navHostController.navigate(NavigationRoute.Home.route)
             }, onSignUp = {
@@ -45,7 +38,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Signup.route) {
-            SignupScreen(onSignIn = {
+            com.example.authentication_presentation.signup.SignupScreen(onSignIn = {
                 navHostController.navigate(NavigationRoute.Home.route) {
                     popUpTo(navHostController.graph.id) {
                         inclusive = true
@@ -57,7 +50,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Settings.route) {
-            SettingsScreen(
+            com.example.settings_presentation.SettingsScreen(
                 onBack = { navHostController.popBackStack() },
                 onLogout = {
                     logout()
@@ -71,7 +64,7 @@ fun NavigationHost(
         }
 
         composable(NavigationRoute.Home.route) {
-            HomeScreen(onNewHabit = {
+            com.example.home_presentation.home.HomeScreen(onNewHabit = {
                 navHostController.navigate(NavigationRoute.Detail.route)
             }, onSettings = {
                 navHostController.navigate(NavigationRoute.Settings.route)
@@ -88,7 +81,7 @@ fun NavigationHost(
                 defaultValue = null
             }
         )) {
-            DetailScreen(
+            com.example.home_presentation.detail.DetailScreen(
                 onBack = { navHostController.popBackStack() },
                 onSave = { navHostController.popBackStack() })
         }

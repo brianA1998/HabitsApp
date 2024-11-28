@@ -21,17 +21,17 @@ import androidx.work.Configuration
 import androidx.work.testing.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.example.habitsapp.MainActivity
-import com.example.habitsapp.home.domain.detail.usecase.DetailUseCases
-import com.example.habitsapp.home.domain.detail.usecase.GetHabitByIdUseCase
-import com.example.habitsapp.home.domain.detail.usecase.InsertHabitUseCase
-import com.example.habitsapp.home.domain.home.usecase.CompleteHabitUseCase
-import com.example.habitsapp.home.domain.home.usecase.GetHabitsForDateUseCase
-import com.example.habitsapp.home.domain.home.usecase.HomeUseCases
-import com.example.habitsapp.home.domain.home.usecase.SyncHabitUseCase
-import com.example.habitsapp.home.presentation.detail.DetailScreen
-import com.example.habitsapp.home.presentation.detail.DetailViewModel
-import com.example.habitsapp.home.presentation.home.HomeScreen
-import com.example.habitsapp.home.presentation.home.HomeViewModel
+import com.example.home_domain.usecase.DetailUseCases
+import com.example.home_domain.usecase.GetHabitByIdUseCase
+import com.example.home_domain.usecase.InsertHabitUseCase
+import com.example.home_domain.usecase.CompleteHabitUseCase
+import com.example.home_domain.usecase.GetHabitsForDateUseCase
+import com.example.home_domain.usecase.HomeUseCases
+import com.example.home_domain.usecase.SyncHabitUseCase
+import com.example.home_presentation.detail.DetailScreen
+import com.example.home_presentation.detail.DetailViewModel
+import com.example.home_presentation.home.HomeScreen
+import com.example.home_presentation.home.HomeViewModel
 import com.example.habitsapp.home.repository.FakeHomeRepository
 import com.example.habitsapp.navigation.NavigationRoute
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -51,8 +51,8 @@ class CreateHabitE2E {
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     private lateinit var homeRepository: FakeHomeRepository
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var homeViewModel: com.example.home_presentation.home.HomeViewModel
+    private lateinit var detailViewModel: com.example.home_presentation.detail.DetailViewModel
     private lateinit var navController: NavHostController
 
 
@@ -65,23 +65,28 @@ class CreateHabitE2E {
         WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
 
         homeRepository = FakeHomeRepository()
-        val usecases = HomeUseCases(
-            completeHabitUseCase = CompleteHabitUseCase(homeRepository),
-            getHabitsForDateUseCase = GetHabitsForDateUseCase(homeRepository),
-            syncHabitsUseCase = SyncHabitUseCase(homeRepository)
+        val usecases = com.example.home_domain.usecase.HomeUseCases(
+            completeHabitUseCase = com.example.home_domain.usecase.CompleteHabitUseCase(
+                homeRepository
+            ),
+            getHabitsForDateUseCase = com.example.home_domain.usecase.GetHabitsForDateUseCase(
+                homeRepository
+            ),
+            syncHabitsUseCase = com.example.home_domain.usecase.SyncHabitUseCase(homeRepository)
         )
-        val detailUseCase = DetailUseCases(
-            getHabitByIdUseCase = GetHabitByIdUseCase(homeRepository),
-            insertHabitUseCase = InsertHabitUseCase(homeRepository)
+        val detailUseCase = com.example.home_domain.usecase.DetailUseCases(
+            getHabitByIdUseCase = com.example.home_domain.usecase.GetHabitByIdUseCase(homeRepository),
+            insertHabitUseCase = com.example.home_domain.usecase.InsertHabitUseCase(homeRepository)
         )
-        homeViewModel = HomeViewModel(usecases)
-        detailViewModel = DetailViewModel(SavedStateHandle(), detailUseCase)
+        homeViewModel = com.example.home_presentation.home.HomeViewModel(usecases)
+        detailViewModel =
+            com.example.home_presentation.detail.DetailViewModel(SavedStateHandle(), detailUseCase)
 
         composeRule.activity.setContent {
             navController = rememberNavController()
             NavHost(navController = navController, startDestination = NavigationRoute.Home.route) {
                 composable(NavigationRoute.Home.route) {
-                    HomeScreen(
+                    com.example.home_presentation.home.HomeScreen(
                         onNewHabit = {
                             navController.navigate(NavigationRoute.Detail.route)
                         },
@@ -105,7 +110,7 @@ class CreateHabitE2E {
                         }
                     )
                 ) {
-                    DetailScreen(
+                    com.example.home_presentation.detail.DetailScreen(
                         onBack = {
                             navController.popBackStack()
                         },

@@ -24,6 +24,8 @@ android {
         }
     }
 
+
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -64,18 +66,22 @@ dependencies {
         }
     }
 
+
+    implementation(project(":core:core_presentation"))
+    implementation(project(":core:core_data"))
+    implementation(project(":settings:settings_presentation"))
+    implementation(project(":onboarding:onboarding_presentation"))
+    implementation(project(":onboarding:onboarding_domain"))
+    implementation(project(":onboarding:onboarding_data"))
+    implementation(project(":authentication:authentication_data"))
+    implementation(project(":authentication:authentication_domain"))
+    implementation(project(":authentication:authentication_presentation"))
+
+    implementation(project(":home:home_data"))
+    implementation(project(":home:home_domain"))
+    implementation(project(":home:home_presentation"))
     //Get day of week api 25 or lower
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-
-    implementation(libs.core)
-    implementation(libs.clock)
-
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(libs.ui)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.androidx.material3)
 
     // Compose Navigation
     implementation(libs.navigation.compose)
@@ -95,23 +101,6 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
-    // Pager
-    implementation(libs.accompanist.pager)
-    implementation(libs.accompanist.pager.indicators)
-
-    // Permissions
-    implementation(libs.accompanist.permissions)
-
-    // Room
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
-
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.logging.interceptor)
-
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)
@@ -129,4 +118,5 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.work.testing)
+
 }
